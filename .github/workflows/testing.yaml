@@ -1,0 +1,20 @@
+name: Testing
+on:
+  push:
+    branches:
+      - '*'
+jobs:
+  run-wacat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: A passing test with wacat
+        run: |
+          cd ..
+          git clone https://github.com/mikesmallhelp/wacat.git
+          cd wacat
+          npm install && npx playwright install --with-deps
+          npm run build && npm install -g
+          wacat test --headless https://mikesmallhelp-test-application-http-500-error.vercel.app/
+
+
